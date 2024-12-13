@@ -1,0 +1,97 @@
+
+# Example 1: Using `expect` to Handle Errors
+use std::fs;
+
+fn main() {
+    let simulated_error: Result<(), std::io::Error> =
+        Err(std::io::Error::new(std::io::ErrorKind::NotFound, "Simulated error"));
+
+    // This will panic with the custom message
+    simulated_error.expect("This is the fail message");
+}
+
+# Example 2: Using `match` to Handle Both Cases
+use std::fs;
+
+fn main() {
+    let result = fs::read_to_string("non_existent_file.txt");
+
+    match result {
+        Ok(content) => println!("File content: {}", content),
+        Err(error) => eprintln!("Failed to read the file: {}", error),
+    }
+}
+
+# Example 3: Using `unwrap` for Quick Debugging
+use std::fs;
+
+fn main() {
+    let simulated_error: Result<(), std::io::Error> =
+        Err(std::io::Error::new(std::io::ErrorKind::NotFound, "Simulated error"));
+
+    simulated_error.unwrap(); // Panics with a default message
+}
+
+# Example 4: Using `if let` for Concise Handling
+use std::fs;
+
+fn main() {
+    let result = fs::read_to_string("non_existent_file.txt");
+
+    if let Ok(content) = result {
+        println!("File content: {}", content);
+    } else {
+        println!("Failed to read the file");
+    }
+}
+
+# Example 5: Using the `?` Operator for Propagating Errors
+use std::fs;
+use std::io;
+
+fn read_file() -> Result<String, io::Error> {
+    let content = fs::read_to_string("example.txt")?; // Propagates error if `Err`
+    Ok(content)
+}
+
+fn main() {
+    match read_file() {
+        Ok(content) => println!("File content: {}", content),
+        Err(error) => eprintln!("Error reading file: {}", error),
+    }
+}
+
+# Example 6: Custom Error Handling with `map_err`
+use std::fs;
+use std::io;
+
+fn main() {
+    let result = fs::read_to_string("non_existent_file.txt")
+        .map_err(|e| format!("Custom error: {}", e));
+
+    match result {
+        Ok(content) => println!("File content: {}", content),
+        Err(error) => println!("{}", error),
+    }
+}
+
+# Example 7: Using `Result` with Option-Like Behavior
+fn divide(a: i32, b: i32) -> Result<i32, &'static str> {
+    if b == 0 {
+        Err("Cannot divide by zero")
+    } else {
+        Ok(a / b)
+    }
+}
+
+fn main() {
+    match divide(10, 2) {
+        Ok(result) => println!("Result: {}", result),
+        Err(error) => eprintln!("Error: {}", error),
+    }
+
+    match divide(10, 0) {
+        Ok(result) => println!("Result: {}", result),
+        Err(error) => eprintln!("Error: {}", error),
+    }
+}
