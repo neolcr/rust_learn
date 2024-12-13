@@ -95,3 +95,28 @@ fn main() {
         Err(error) => eprintln!("Error: {}", error),
     }
 }
+
+
+Key Functions for Result
+
+    expect: Extracts the Ok value or panics with a custom error message.
+
+result.expect("Custom error message");
+
+unwrap: Extracts the Ok value or panics with a default message.
+
+is_ok / is_err: Checks if the result is Ok or Err.
+
+if result.is_ok() { ... }
+
+unwrap_or: Returns the Ok value or a default value.
+
+let value = result.unwrap_or(42);
+
+unwrap_or_else: Returns the Ok value or computes a value from a closure.
+
+let value = result.unwrap_or_else(|_| compute_default());
+
+map / map_err: Transforms the Ok or Err value.
+
+result.map(|v| v + 1).map_err(|e| format!("Error: {}", e));

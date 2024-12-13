@@ -15,7 +15,14 @@ fn main() {
 
     // throw_exception();
 
-    exist_file();
+    // exist_file();
+
+    // calculator();
+
+    string_to_str(String::from("hola"));
+
+    let s: String = str_to_string("hola2");
+    println!("{}", s);
 }
 
 #[allow(dead_code)]
@@ -108,15 +115,56 @@ fn exist_file() {
     }
 }
 
+#[allow(dead_code)]
 fn propagates_error() -> Result<String, io::Error> {
     let content = fs::read_to_string("non_existent4.txt")?;
     Ok(content)
 }
 
+#[allow(dead_code)]
 fn divide(a: i32, b: i32) -> Result<i32, &'static str> {
     if b == 0 {
         Err("Cannot divide by zero")
     } else {
         Ok(a / b)
     }
+}
+
+#[allow(dead_code)]
+fn calculator() {
+    let mut op = String::new();
+    let mut v1 = String::new();
+    let mut v2 = String::new();
+
+    io::stdin()
+        .read_line(&mut op)
+        .expect("Failed input operator");
+    println!("Operator {}", op);
+
+    io::stdin()
+        .read_line(&mut v1)
+        .expect("Failed input value 1");
+    println!("Value 1: {}", v1);
+
+    io::stdin()
+        .read_line(&mut v2)
+        .expect("Failed input value 2");
+    println!("Value 2: {}", v2);
+
+    let n1: i32 = v1.trim().parse().unwrap();
+    let n2: i32 = v2.trim().parse().unwrap();
+    let result = n1 + n2;
+
+    println!("Resultado: {}", result);
+}
+
+fn string_to_str(s: String) {
+    let s_ref: &str = &s;
+    // can't return a &str due to it is not owned but borrowed'
+    println!("{}", s_ref);
+}
+
+fn str_to_string(s: &str) -> String {
+    let s = String::from(s);
+    s
 }
