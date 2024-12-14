@@ -1,4 +1,5 @@
 use std::{fs, io};
+mod modules;
 
 fn main() {
     //challenge 1
@@ -19,10 +20,14 @@ fn main() {
 
     // calculator();
 
-    string_to_str(String::from("hola"));
+    // string_to_str(String::from("hola"));
+    //
+    // let s: String = str_to_string("hola2");
+    // println!("{}", s);
 
-    let s: String = str_to_string("hola2");
-    println!("{}", s);
+    println!("Sum: {}", modules::math::add(4,5));
+    modules::greeting::say_hola();
+
 }
 
 #[allow(dead_code)]
